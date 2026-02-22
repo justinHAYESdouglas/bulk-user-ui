@@ -1,5 +1,11 @@
 import { DataGrid, type GridColDef } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import type { GridApiCommunity } from '@mui/x-data-grid/internals';
+
+interface DataTableProps {
+  apiRef?: React.RefObject<GridApiCommunity | null>;
+}
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', width: 70 },
@@ -35,17 +41,31 @@ const rows = [
 
 const paginationModel = { page: 0, pageSize: 5 };
 
-export default function DataTable() {
+export default function DataTable({ apiRef }: DataTableProps) {
+
   return (
-    <Paper sx={{ height: 400, width: '100%' }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        initialState={{ pagination: { paginationModel } }}
-        pageSizeOptions={[5, 10]}
-        checkboxSelection
-        sx={{ border: 0 }}
-      />
-    </Paper>
+    <Box sx={{ width: '100%' }}>
+      <Paper sx={{ height: 400, width: '100%' }}>
+        <DataGrid
+          apiRef={apiRef}
+          rows={rows}
+          columns={columns}
+          initialState={{ pagination: { paginationModel } }}
+          pageSizeOptions={[5, 10]}
+          checkboxSelection
+          disableColumnFilter={false}
+          slotProps={{}}
+          sx={{
+            border: 0,
+            '& .MuiDataGrid-columnHeader .MuiDataGrid-menuIcon': {
+              display: 'none',
+            },
+            '& .MuiDataGrid-columnHeader:hover .MuiDataGrid-menuIcon': {
+              display: 'none',
+            },
+          }}
+        />
+      </Paper>
+    </Box>
   );
 }

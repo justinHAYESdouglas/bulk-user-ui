@@ -7,15 +7,14 @@ import Unlock from './Table_Btns/Unlock';
 import Export from './Table_Btns/Export';
 import Delete from './Table_Btns/Delete';
 import SearchFilter from './Table_Btns/SearchFilter';
-
 import DataTable from './Tables/DataTable';
-// TODO: Make this one import
-
 import { Box } from '@mui/material';
-
+import { useGridApiRef } from '@mui/x-data-grid';
 import './App.css';
 
 function App() {
+  const apiRef = useGridApiRef();
+
   return (
     <>
       <Nav />
@@ -37,11 +36,11 @@ function App() {
           <Unlock />
           <Export />
           <Delete />
-          <SearchFilter />
+          <SearchFilter apiRef={apiRef} />
         </Box>
 
         <Box>
-          <DataTable />
+          <DataTable apiRef={apiRef} />
         </Box>
       </main>
     </>
