@@ -1,11 +1,14 @@
 import MuiModal from '@mui/material/Modal';
-import { Box } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 
 interface ModalProps {
   open: boolean;
   handleClose: () => void;
+  modalIcon?: React.ReactNode;
   title?: string;
   children?: React.ReactNode;
+  confirmLabel?: string;
+  onConfirm: () => void;
 }
 
 const style = {
@@ -20,12 +23,21 @@ const style = {
   p: 4,
 };
 
-export default function Modal({ open, handleClose, title, children }: ModalProps) {
+export default function Modal({ open, handleClose, onConfirm , modalIcon, title, children, confirmLabel }: ModalProps) {
   return (
     <MuiModal open={open} onClose={handleClose}>
       <Box sx={style}>
-        {title && <h2>{title}</h2>}
-        {children}
+        <Box className="modal-title-wrapper">
+          {modalIcon}
+         <Typography variant="h6">{title}</Typography>
+        </Box>
+        <Box className="modal-content-wrapper">
+          {children}
+        </Box>
+        <Box className="modal-btn-wrapper">
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={onConfirm}>{confirmLabel}</Button>
+        </Box>
       </Box>
     </MuiModal>
   );

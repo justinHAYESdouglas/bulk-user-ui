@@ -1,9 +1,10 @@
 import { Button} from '@mui/material';
+import LockIcon from '@mui/icons-material/Lock';
 
 export default function Lock() {
   return (
      <>
-     <Button>Lock</Button> 
+     <Button startIcon={<LockIcon />}>Lock</Button> 
     </>
   )
 }
