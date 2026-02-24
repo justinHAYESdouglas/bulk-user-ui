@@ -5,23 +5,27 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 export default function Add() {
   const [open, setOpen] = useState(false);
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const updateUser = () =>{
-    console.log("hi")
-    handleClose();
-  } 
+  const handleAddModalOpen = () => setOpen(true);
+  const handleAddModalClose = () => setOpen(false);
+  const updateUser = () => {
+    console.log('hi');
+    handleAddModalClose();
+  };
 
   return (
     <>
-      <Button onClick={handleOpen} startIcon={<PersonAddIcon />}>Add User</Button>
-      <Modal 
-      open={open} 
-      handleClose={handleClose} 
-      onConfirm={updateUser}
-      modalIcon= {<PersonAddIcon />}
-      title="Add User"
-      confirmLabel='Add'>
+      <Button onClick={handleAddModalOpen} startIcon={<PersonAddIcon />}>
+        Add User
+      </Button>
+      
+      <Modal
+        open={open}
+        handleClose={handleAddModalClose}
+        onConfirm={updateUser}
+        modalIcon={<PersonAddIcon />}
+        title="Add User"
+        confirmLabel="Add"
+      >
         <p>Form goes here</p>
       </Modal>
     </>
