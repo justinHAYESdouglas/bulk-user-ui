@@ -39,30 +39,44 @@ const rows = [
   { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
 ];
 
-const paginationModel = { page: 0, pageSize: 5 };
+const paginationModel = { page: 0, pageSize: 10 };
 
 export default function DataTable({ apiRef }: DataTableProps) {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Paper sx={{ height: 400, width: '100%' }}>
+      <Paper sx={{ width: '100%' }}>
         <DataGrid
           apiRef={apiRef}
           rows={rows}
           columns={columns}
           initialState={{ pagination: { paginationModel } }}
-          pageSizeOptions={[5, 10]}
+          pageSizeOptions={[10, 25, 50]}
           checkboxSelection
           disableColumnFilter={false}
           slotProps={{}}
           sx={{
+            background: 'var(--bg-color-darkest)',
+            color: 'var(--primary-text-color)',
             border: 0,
+            '& .MuiDataGrid-columnHeader': {
+              background: 'var(--bg-color-light)',
+            },
             '& .MuiDataGrid-columnHeader .MuiDataGrid-menuIcon': {
               display: 'none',
             },
             '& .MuiDataGrid-columnHeader:hover .MuiDataGrid-menuIcon': {
               display: 'none',
             },
+            '.MuiDataGrid-filler': {
+              background: 'var(--bg-color-light) !important',
+            },
+            '.MuiTablePagination-root': {
+              height: '45px',
+              color: 'var(--primary-text-color)',
+              background: 'var(--bg-color-light) !important',
+              overflowY: 'hidden !important',
+            }
           }}
         />
       </Paper>

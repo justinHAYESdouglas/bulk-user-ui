@@ -2,3 +2,23 @@
   padding: 0;
   margin: 0;
 }
+
+body{
+  background: var(--bg-color-darkest);
+  color: var(--primary-text-color);
+}
+
+button{
+  color: var(--primary-text-color) !important;
+  background: var(--bg-color-dark) !important;
+  text-transform: none !important;
+}
+
+:root{
+  --bg-color-darkest: #09090B;
+  --bg-color-dark: #212125;
+  --bg-color-light: #26262A;
+  --bg-color-lightest: #26262A;
+  --border-color: #212123;
+  --primary-text-color: #fff;
+}

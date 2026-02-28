@@ -20,10 +20,14 @@ export default function Nav() {
           sx={{
             display: 'flex',
             justifyContent: 'flex-end',
+            background: 'var(--bg-color-dark)',
           }}
           component="nav"
         >
-          <Button onClick={handleClick} endIcon={<ArrowDropDownIcon />}>
+          <Button 
+          onClick={handleClick} 
+          endIcon={<ArrowDropDownIcon />}
+          >
             Super Admin (Org 0)
           </Button>
 

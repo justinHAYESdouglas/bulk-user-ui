@@ -18,25 +18,41 @@ function App() {
   return (
     <>
       <Nav />
+
       <main>
         <h1>Users</h1>
+
         <Box
-          id="table-btn-wrapper"
           sx={{
             display: 'flex',
-            '& button:last-child': {
-              marginLeft: 'auto',
-            },
+            flexDirection: 'row',
           }}
         >
-          <Edit />
-          <Add />
-          <AddToGroup />
-          <Lock />
-          <Unlock />
-          <Export />
-          <Delete />
-          <SearchFilter apiRef={apiRef} />
+          <Box
+            id="table-btn-wrapper"
+            sx={{
+              display: 'flex',
+              gap: '8px',
+              padding: '12px 0 12px 0',
+              borderTop: '2px solid var(--primary-text-color)',
+            }}
+          >
+            <Edit />
+            <Add />
+            <AddToGroup />
+            <Lock />
+            <Unlock />
+            <Export />
+            <Delete />
+          </Box>
+
+          <Box
+            sx={{
+              marginLeft: 'auto',
+            }}
+          >
+            <SearchFilter apiRef={apiRef} />
+          </Box>
         </Box>
 
         <Box>

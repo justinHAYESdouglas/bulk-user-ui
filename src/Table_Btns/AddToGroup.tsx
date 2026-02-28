@@ -81,7 +81,7 @@ export default function AddToGroup() {
             placeholder="Search groups..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            onClick={(e) => e.stopPropagation()} // Prevent menu from closing
+            onClick={(e) => e.stopPropagation()}
             fullWidth
             InputProps={{
               startAdornment: (
