@@ -9,16 +9,23 @@ body{
 }
 
 button{
+  font-size: 12px !important;
   color: var(--primary-text-color) !important;
   background: var(--bg-color-dark) !important;
   text-transform: none !important;
+}
+
+button:hover{
+  background: var(--bg-color-lighter) !important;
+  outline: 1px solid var(--bg-color-lightest);
 }
 
 :root{
   --bg-color-darkest: #09090B;
   --bg-color-dark: #212125;
   --bg-color-light: #26262A;
-  --bg-color-lightest: #26262A;
+  --bg-color-lighter: #3B3B45;
+  --bg-color-lightest: #A4A3A6;
   --border-color: #212123;
   --primary-text-color: #fff;
 }

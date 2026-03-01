@@ -37,6 +37,9 @@ const rows = [
   { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
   { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
   { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
+  { id: 19, lastName: '3Roxie', firstName: 'Harvey', age: 65 },
+  { id: 29, lastName: 'R2oxie', firstName: 'Harvey', age: 65 },
+  { id: 39, lastName: 'R4oxie', firstName: 'Harvey', age: 65 },
 ];
 
 const paginationModel = { page: 0, pageSize: 10 };
@@ -49,6 +52,7 @@ export default function DataTable({ apiRef }: DataTableProps) {
         <DataGrid
           apiRef={apiRef}
           rows={rows}
+          rowHeight={49}
           columns={columns}
           initialState={{ pagination: { paginationModel } }}
           pageSizeOptions={[10, 25, 50]}
@@ -59,8 +63,16 @@ export default function DataTable({ apiRef }: DataTableProps) {
             background: 'var(--bg-color-darkest)',
             color: 'var(--primary-text-color)',
             border: 0,
+            fontSize:'14px',
+            '.MuiDataGrid-row--borderBottom' : {
+             height: '45px !important'
+            },
+            '.MuiDataGrid-scrollbarFiller, .MuiDataGrid-scrollbar' :{
+              display: 'none',
+            },
             '& .MuiDataGrid-columnHeader': {
               background: 'var(--bg-color-light)',
+              border: 'none'
             },
             '& .MuiDataGrid-columnHeader .MuiDataGrid-menuIcon': {
               display: 'none',
@@ -68,13 +80,35 @@ export default function DataTable({ apiRef }: DataTableProps) {
             '& .MuiDataGrid-columnHeader:hover .MuiDataGrid-menuIcon': {
               display: 'none',
             },
+            '&': {
+              '--DataGrid-rowBorderColor': 'transparent !important',
+            },
             '.MuiDataGrid-filler': {
               background: 'var(--bg-color-light) !important',
+              border: 'none'
+            },
+            '& .MuiSvgIcon-root': {
+              fill: 'var(--bg-color-lightest)'
+            },
+            '& .MuiDataGrid-row':{
+              height: '25px !important',
+            },
+            '.MuiDataGrid-cell' : {
+              border: 'none',
+              borderBottom: '1px solid var(--border-color) !important',
+            },
+            '.MuiDataGrid-row:hover, .Mui-selected': {
+              background: 'var(--bg-color-light) !important',
+              cursor: 'pointer'
+            },
+            '.MuiDataGrid-footerContainer' :{
+              border: 'none'
             },
             '.MuiTablePagination-root': {
               height: '45px',
               color: 'var(--primary-text-color)',
-              background: 'var(--bg-color-light) !important',
+              background: 'var(--bg-color-dark) !important',
+              border:'none !important',
               overflowY: 'hidden !important',
             }
           }}
