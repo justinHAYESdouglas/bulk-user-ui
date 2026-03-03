@@ -20,6 +20,7 @@ export default function Nav() {
           sx={{
             display: 'flex',
             justifyContent: 'flex-end',
+            marginBottom: '10px',
             background: 'var(--bg-color-dark)',
           }}
           component="nav"

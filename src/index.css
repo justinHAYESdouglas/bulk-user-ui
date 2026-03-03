@@ -1,6 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 *{
   padding: 0;
   margin: 0;
+  font-family: 'Inter', sans-serif;
 }
 
 body{
@@ -13,6 +15,7 @@ button{
   color: var(--primary-text-color) !important;
   background: var(--bg-color-dark) !important;
   text-transform: none !important;
+  font-weight: bold !important;
 }
 
 button:hover{
@@ -20,8 +23,31 @@ button:hover{
   outline: 1px solid var(--bg-color-lightest);
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  display: none;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--bg-color-lighter); 
+  border-radius: 8px;
+
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
 :root{
   --bg-color-darkest: #09090B;
+  --bg-color-darker: #18181C;
   --bg-color-dark: #212125;
   --bg-color-light: #26262A;
   --bg-color-lighter: #3B3B45;

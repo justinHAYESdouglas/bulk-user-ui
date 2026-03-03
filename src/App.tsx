@@ -8,7 +8,7 @@ import Export from './Table_Btns/Export';
 import Delete from './Table_Btns/Delete';
 import SearchFilter from './Table_Btns/SearchFilter';
 import DataTable from './Tables/DataTable';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useGridApiRef } from '@mui/x-data-grid';
 import './App.css';
 
@@ -20,7 +20,17 @@ function App() {
       <Nav />
 
       <main>
-        <h1>Users</h1>
+        <Typography variant="h1"
+          sx={{
+            fontWeight:'unset',
+            fontSize: '34px',
+            transform: 'scaleY(1.2)',
+            letterSpacing: 1
+          }}
+        >
+          Users
+          
+          </Typography>
 
         <Box
           sx={{
@@ -48,7 +58,9 @@ function App() {
 
           <Box
             sx={{
+              display: 'flex',
               marginLeft: 'auto',
+              alignItems: 'center',
             }}
           >
             <SearchFilter apiRef={apiRef} />

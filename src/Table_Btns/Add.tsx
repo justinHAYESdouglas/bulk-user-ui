@@ -15,7 +15,7 @@ export default function Add() {
   return (
     <>
       <Button onClick={handleAddModalOpen} startIcon={<PersonAddIcon />}>
-        Add User
+        Add User(s)
       </Button>
       
       <Modal

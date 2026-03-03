@@ -1,5 +1,4 @@
 import { DataGrid, type GridColDef } from '@mui/x-data-grid';
-import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import type { GridApiCommunity } from '@mui/x-data-grid/internals';
 
@@ -40,6 +39,9 @@ const rows = [
   { id: 19, lastName: '3Roxie', firstName: 'Harvey', age: 65 },
   { id: 29, lastName: 'R2oxie', firstName: 'Harvey', age: 65 },
   { id: 39, lastName: 'R4oxie', firstName: 'Harvey', age: 65 },
+  { id: 329, lastName: 'R4oxie', firstName: 'Harvey', age: 65 },
+  { id: 319, lastName: 'R43oxie', firstName: 'H4arvey', age: 65 },
+  { id: 339, lastName: 'R4ox4ie', firstName: 'Harve2y', age: 645 },
 ];
 
 const paginationModel = { page: 0, pageSize: 10 };
@@ -47,27 +49,28 @@ const paginationModel = { page: 0, pageSize: 10 };
 export default function DataTable({ apiRef }: DataTableProps) {
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '100%' }}>
+    <Box>
         <DataGrid
           apiRef={apiRef}
           rows={rows}
-          rowHeight={49}
+          rowHeight={64}
           columns={columns}
           initialState={{ pagination: { paginationModel } }}
           pageSizeOptions={[10, 25, 50]}
           checkboxSelection
           disableColumnFilter={false}
-          slotProps={{}}
           sx={{
+            minHeight : 754,
+            maxHeight : 755,
+             //This small difference in height keeps the scroll bar hidden at the lowest value of cells per page 
             background: 'var(--bg-color-darkest)',
             color: 'var(--primary-text-color)',
-            border: 0,
-            fontSize:'14px',
+            border: '2px solid var(--border-color) !important',
+            fontSize: 14,
             '.MuiDataGrid-row--borderBottom' : {
-             height: '45px !important'
+            background: 'var(--bg-color-light) !important',
             },
-            '.MuiDataGrid-scrollbarFiller, .MuiDataGrid-scrollbar' :{
+            '.MuiDataGrid-scrollbarFiller, & .MuiDataGrid-filler ' :{
               display: 'none',
             },
             '& .MuiDataGrid-columnHeader': {
@@ -90,30 +93,24 @@ export default function DataTable({ apiRef }: DataTableProps) {
             '& .MuiSvgIcon-root': {
               fill: 'var(--bg-color-lightest)'
             },
-            '& .MuiDataGrid-row':{
-              height: '25px !important',
-            },
-            '.MuiDataGrid-cell' : {
+            '.MuiDataGrid-cell' :{
               border: 'none',
-              borderBottom: '1px solid var(--border-color) !important',
+              borderTop: '1px solid var(--border-color) !important',
             },
+            
             '.MuiDataGrid-row:hover, .Mui-selected': {
               background: 'var(--bg-color-light) !important',
               cursor: 'pointer'
             },
             '.MuiDataGrid-footerContainer' :{
-              border: 'none'
+              border: 'none',
             },
             '.MuiTablePagination-root': {
-              height: '45px',
               color: 'var(--primary-text-color)',
               background: 'var(--bg-color-dark) !important',
-              border:'none !important',
-              overflowY: 'hidden !important',
             }
           }}
         />
-      </Paper>
     </Box>
   );
 }
