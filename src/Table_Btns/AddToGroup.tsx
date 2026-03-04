@@ -68,15 +68,17 @@ export default function AddToGroup() {
         anchorEl={anchorEL}
         open={openGroupDropdown}
         onClose={handleGroupDropdownClose}
-        PaperProps={{
-          style: {
-            maxHeight: 400,
-            width: '250px',
-          },
-        }}
       >
-        <MenuItem sx={{ pt: 1, pb: 1, cursor: 'default' }} disableRipple>
+        <MenuItem sx={{ pt: 1, pb: 1, cursor: 'default',  }} disableRipple>
           <TextField
+            sx={{
+            '& .MuiInputAdornment-root .MuiSvgIcon-root, input': {
+                color: 'var(--primary-text-color)',
+              },
+              '& fieldset':{
+                borderColor: 'var(--bg-color-lightest)'
+              }
+            }}
             size="small"
             placeholder="Search groups..."
             value={searchQuery}
@@ -93,7 +95,9 @@ export default function AddToGroup() {
           />
         </MenuItem>
         
-        <Divider />
+        <Divider sx={{
+          background: 'var(--bg-color-lightest) !important',
+        }} />
 
         {filteredGroups.length > 0 ? (
           filteredGroups.map((group, index) => (
@@ -103,7 +107,9 @@ export default function AddToGroup() {
           <MenuItem disabled>No groups found</MenuItem>
         )}
 
-        <Divider />
+        <Divider sx={{
+          background: 'var(--bg-color-lightest) !important',
+        }} />
         
         <MenuItem onClick={handleManageGroupModalOpen}>Manage Group</MenuItem>
         <MenuItem onClick={handleCreateGroupModalOpen}>Create Group</MenuItem>

@@ -10,6 +10,19 @@ body{
   color: var(--primary-text-color);
 }
 
+.MuiList-root{
+  background: var(--bg-color-dark) !important;
+  color: var(--primary-text-color);
+}
+
+.MuiPaper-root{
+  background: none !important;
+}
+
+.MuiList-root li:hover{
+  background: var(--bg-color-lighter) !important;
+}
+
 button{
   font-size: 12px !important;
   color: var(--primary-text-color) !important;
@@ -23,6 +36,7 @@ button:hover{
   outline: 1px solid var(--bg-color-lightest);
 }
 
+/* SCROLLBAR STYLES */
 /* width */
 ::-webkit-scrollbar {
   width: 5px;
@@ -42,8 +56,33 @@ button:hover{
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+  background: var(--bg-color-lighter); 
 }
+/* SCROLLBAR STYLES END */
+
+
+/* FILTER PANEL STYLES */
+.MuiDataGrid-paper {
+  background-color: var(--bg-color-dark) !important;
+}
+
+.MuiDataGrid-filterForm .MuiSelect-select {
+  color: var(--primary-text-color) !important;
+}
+
+.MuiDataGrid-filterForm .MuiSelect-select, 
+.MuiDataGrid-filterForm .MuiFormLabel-root,
+.MuiDataGrid-filterForm input {
+  color: var(--primary-text-color) !important;
+}
+
+.MuiDataGrid-filterForm fieldset, .MuiDataGrid-filterForm svg{
+  border-color:var(--bg-color-lighter) !important;
+  fill: var(--primary-text-color) !important;
+
+}
+
+/* FILTER PANEL STYLES END */
 
 :root{
   --bg-color-darkest: #09090B;

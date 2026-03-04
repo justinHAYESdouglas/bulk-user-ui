@@ -50,7 +50,10 @@ export default function Modal({ open, handleClose, onConfirm , modalIcon, title,
               width: '138px',
               height: '37px',
               fontSize: '18px !important',
+              fontWeight: 'unset !important',
               borderRadius: '24px',
+              opacity: '0.5',
+
             }
           }}>
           <Button onClick={handleClose}
@@ -65,7 +68,12 @@ export default function Modal({ open, handleClose, onConfirm , modalIcon, title,
             }}>
             Cancel
             </Button>
-          <Button onClick={onConfirm}>{confirmLabel}</Button>
+          <Button onClick={onConfirm}
+          sx={{
+            '&:hover' :{
+              opacity: '1',
+            }
+          }}>{confirmLabel}</Button>
         </Box>
       </Box>
     </MuiModal>
