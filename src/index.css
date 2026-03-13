@@ -10,6 +10,7 @@ body{
   color: var(--primary-text-color);
 }
 
+/* DROPDOWN & MENU STYLES */
 .MuiList-root{
   background: var(--bg-color-dark) !important;
   color: var(--primary-text-color);
@@ -19,9 +20,11 @@ body{
   background: none !important;
 }
 
-.MuiList-root li:hover{
+.MuiList-root li:hover, .Mui-selected{
   background: var(--bg-color-lighter) !important;
 }
+
+/* DROPDOWN & MENU STYLES END */
 
 button{
   font-size: 12px !important;
@@ -34,6 +37,10 @@ button{
 button:hover{
   background: var(--bg-color-lighter) !important;
   outline: 1px solid var(--bg-color-lightest);
+}
+
+.MuiCheckbox-root svg{
+  fill: var(--primary-text-color);
 }
 
 /* SCROLLBAR STYLES */
@@ -60,6 +67,36 @@ button:hover{
 }
 /* SCROLLBAR STYLES END */
 
+/* INPUT STYLES */
+.MuiInputBase-root svg{
+  fill: var(--bg-color-lighter);
+}
+
+.MuiInputBase-root{
+  color: var(--primary-text-color) !important;
+}
+
+.MuiFormControl-root label, .MuiFormControl-root label:focus{
+  color: var(--bg-color-lightest) !important;
+}
+
+.MuiInput-input{
+  border: none;
+  border-bottom: 2px solid var(--bg-color-lighter) !important;
+}
+
+.MuiInput-underline:hover:not(.Mui-disabled):before {
+  border-bottom-color: var(--bg-color-lightest) !important;
+}
+.MuiInputBase-root::after {
+  border-bottom: 2px solid var(--primary-text-color) !important
+}
+
+.MuiChip-label{
+  font-size: 16px !important;
+  color: var(--primary-text-color);
+}
+/* INPUT STYLES END */
 
 /* FILTER PANEL STYLES */
 .MuiDataGrid-paper {
@@ -93,4 +130,5 @@ button:hover{
   --bg-color-lightest: #A4A3A6;
   --border-color: #212123;
   --primary-text-color: #fff;
+  --error-text-color: red;
 }

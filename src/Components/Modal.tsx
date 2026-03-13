@@ -1,5 +1,6 @@
 import MuiModal from '@mui/material/Modal';
 import { Box, Button, Typography } from '@mui/material';
+import { useState } from 'react';
 
 interface ModalProps {
   open: boolean;
@@ -9,11 +10,13 @@ interface ModalProps {
   children?: React.ReactNode;
   confirmLabel?: string;
   onConfirm: () => void;
+  onReset?: () => void;
+  validate?: () => string[];
 }
 
 const style = {
   position: 'absolute',
-  top: '25%',
+  top: '40%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 407,
@@ -21,11 +24,23 @@ const style = {
   boxShadow: 24,
   p: 2,
   gap: 8,
+  borderRadius: '8px'
 };
 
-export default function Modal({ open, handleClose, onConfirm , modalIcon, title, children, confirmLabel }: ModalProps) {
+export default function Modal({ open, handleClose, onConfirm, onReset, validate, modalIcon, title, children, confirmLabel }: ModalProps) {
+  const [errors, setErrors] = useState<string[]>([]);
+  const handleCancel = () => { setErrors([]); handleClose(); onReset?.(); };
+  const handleConfirm = () => {
+    if (validate) {
+      const errs = validate();
+      if (errs.length > 0) { setErrors(errs); return; }
+    }
+    setErrors([]);
+    onConfirm();
+    onReset?.();
+  };
   return (
-    <MuiModal open={open} onClose={handleClose}>
+    <MuiModal open={open} onClose={handleCancel}>
       <Box sx={style}>
         <Box className="modal-title-wrapper"
           sx={{
@@ -36,8 +51,21 @@ export default function Modal({ open, handleClose, onConfirm , modalIcon, title,
           {modalIcon}
          <Typography variant="h6">{title}</Typography>
         </Box>
-        <Box className="modal-content-wrapper">
+        <Box className="modal-content-wrapper"
+         sx={{
+            display: 'flex',
+            flexDirection:'column',
+            gap: 4,
+            pt: 1,
+            pb: 4,
+         }}>
+          
           {children}
+          {errors.length > 0 && (
+            <Box sx={{ color: 'var(--error-text-color)', display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+              {errors.map((err, i) => <Typography key={i} variant="body2">{err}</Typography>)}
+            </Box>
+          )}
         </Box>
         <Box className="modal-btn-wrapper"
           sx={{
@@ -56,19 +84,19 @@ export default function Modal({ open, handleClose, onConfirm , modalIcon, title,
 
             }
           }}>
-          <Button onClick={handleClose}
+          <Button onClick={handleCancel}
             sx={{
               background: 'none !important',
               outline: '0px !important',
-              color: 'var',
-
               '&:hover' :{
                 background: 'none !important',
+                opacity: '1',
+                transition: '.3s ease'
               }
             }}>
             Cancel
             </Button>
-          <Button onClick={onConfirm}
+          <Button onClick={handleConfirm}
           sx={{
             '&:hover' :{
               opacity: '1',

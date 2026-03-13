@@ -111,8 +111,8 @@ export default function AddToGroup() {
           background: 'var(--bg-color-lightest) !important',
         }} />
         
-        <MenuItem onClick={handleManageGroupModalOpen}>Manage Group</MenuItem>
-        <MenuItem onClick={handleCreateGroupModalOpen}>Create Group</MenuItem>
+        <MenuItem onClick={handleManageGroupModalOpen}>Manage Groups</MenuItem>
+        <MenuItem onClick={handleCreateGroupModalOpen}>Create Groups</MenuItem>
       </Menu>
 
       <Modal

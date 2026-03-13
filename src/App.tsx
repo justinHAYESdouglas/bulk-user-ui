@@ -10,10 +10,20 @@ import SearchFilter from './Table_Btns/SearchFilter';
 import DataTable from './Tables/DataTable';
 import { Box, Typography } from '@mui/material';
 import { useGridApiRef } from '@mui/x-data-grid';
+import { useState } from 'react';
+import usersData from './data/users.json';
 import './App.css';
 
+export type User = typeof usersData[number];
+
+// this is an enterprise bluk usermanagment frontend
 function App() {
   const apiRef = useGridApiRef();
+  const [users, setUsers] = useState<User[]>(usersData);
+
+  const handleAddUser = (user: User) => {
+    setUsers((prev) => [...prev, user]);
+  };
 
   return (
     <>
@@ -48,7 +58,7 @@ function App() {
             }}
           >
             <Edit />
-            <Add />
+            <Add onAddUser={handleAddUser} users={users} />
             <AddToGroup />
             <Lock />
             <Unlock />
@@ -68,7 +78,7 @@ function App() {
         </Box>
 
         <Box>
-          <DataTable apiRef={apiRef} />
+          <DataTable apiRef={apiRef} rows={users} />
         </Box>
       </main>
     </>
