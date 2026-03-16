@@ -6,9 +6,8 @@ import Lock from './Table_Btns/Lock';
 import Unlock from './Table_Btns/Unlock';
 import Export from './Table_Btns/Export';
 import Delete from './Table_Btns/Delete';
-import SearchFilter from './Table_Btns/SearchFilter';
 import DataTable from './Tables/DataTable';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Snackbar, Alert } from '@mui/material';
 import { useGridApiRef } from '@mui/x-data-grid';
 import { useState } from 'react';
 import usersData from './data/users.json';
@@ -20,9 +19,11 @@ export type User = typeof usersData[number];
 function App() {
   const apiRef = useGridApiRef();
   const [users, setUsers] = useState<User[]>(usersData);
+  const [snackbar, setSnackbar] = useState<string | null>(null);
 
   const handleAddUser = (user: User) => {
-    setUsers((prev) => [...prev, user]);
+    setUsers((prev) => [user, ...prev]);
+    setSnackbar(user.username);
   };
 
   return (
@@ -66,21 +67,30 @@ function App() {
             <Delete />
           </Box>
 
-          <Box
-            sx={{
-              display: 'flex',
-              marginLeft: 'auto',
-              alignItems: 'center',
-            }}
-          >
-            <SearchFilter apiRef={apiRef} />
-          </Box>
         </Box>
 
         <Box>
           <DataTable apiRef={apiRef} rows={users} />
         </Box>
       </main>
+
+      <Snackbar
+        open={snackbar !== null}
+        autoHideDuration={3000}
+        onClose={() => setSnackbar(null)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        sx={{
+          background: 'var(--bg-color-light)',
+          borderLeft: '2px solid var(--primary-text-color)',
+          borderRadius: '4px',
+          marginBottom: '50px',
+          padding: 1
+        }}
+      >
+        <Alert onClose={() => setSnackbar(null)} severity="success" variant="filled">
+          {snackbar} added successfully 
+        </Alert>
+      </Snackbar>
     </>
   );
 }

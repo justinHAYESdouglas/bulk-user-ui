@@ -89,12 +89,13 @@ button:hover{
   border-bottom-color: var(--bg-color-lightest) !important;
 }
 .MuiInputBase-root::after {
-  border-bottom: 2px solid var(--primary-text-color) !important
+  border-bottom: 2px solid var(--primary-text-color) !important;
 }
 
 .MuiChip-label{
   font-size: 16px !important;
   color: var(--primary-text-color);
+  box-shadow: none;
 }
 /* INPUT STYLES END */
 

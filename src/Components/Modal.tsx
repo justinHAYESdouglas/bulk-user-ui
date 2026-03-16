@@ -1,5 +1,5 @@
 import MuiModal from '@mui/material/Modal';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Collapse, Typography } from '@mui/material';
 import { useState } from 'react';
 
 interface ModalProps {
@@ -24,7 +24,7 @@ const style = {
   boxShadow: 24,
   p: 2,
   gap: 8,
-  borderRadius: '8px'
+  borderRadius: '8px',
 };
 
 export default function Modal({ open, handleClose, onConfirm, onReset, validate, modalIcon, title, children, confirmLabel }: ModalProps) {
@@ -61,11 +61,11 @@ export default function Modal({ open, handleClose, onConfirm, onReset, validate,
          }}>
           
           {children}
-          {errors.length > 0 && (
+          <Collapse in={errors.length > 0} timeout={250}>
             <Box sx={{ color: 'var(--error-text-color)', display: 'flex', flexDirection: 'column', gap: 0.5 }}>
               {errors.map((err, i) => <Typography key={i} variant="body2">{err}</Typography>)}
             </Box>
-          )}
+          </Collapse>
         </Box>
         <Box className="modal-btn-wrapper"
           sx={{
