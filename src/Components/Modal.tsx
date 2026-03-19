@@ -1,6 +1,6 @@
 import MuiModal from '@mui/material/Modal';
 import { Box, Button, Collapse, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 interface ModalProps {
   open: boolean;
@@ -12,6 +12,8 @@ interface ModalProps {
   onConfirm: () => void;
   onReset?: () => void;
   validate?: () => string[];
+  contentSx?: object;
+  holdToConfirm?: boolean;
 }
 
 const style = {
@@ -19,7 +21,7 @@ const style = {
   top: '40%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 407,
+  width: 409,
   bgcolor: 'var(--bg-color-darker)',
   boxShadow: 24,
   p: 2,
@@ -27,9 +29,33 @@ const style = {
   borderRadius: '8px',
 };
 
-export default function Modal({ open, handleClose, onConfirm, onReset, validate, modalIcon, title, children, confirmLabel }: ModalProps) {
+export default function Modal({ open, handleClose, onConfirm, onReset, validate, modalIcon, title, children, confirmLabel, contentSx, holdToConfirm }: ModalProps) {
   const [errors, setErrors] = useState<string[]>([]);
-  const handleCancel = () => { setErrors([]); handleClose(); onReset?.(); };
+  const [holdProgress, setHoldProgress] = useState(0);
+  const holdTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const progressTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const HOLD_DURATION = 1500;
+
+  const cancelHold = () => {
+    if (holdTimerRef.current) clearTimeout(holdTimerRef.current);
+    if (progressTimerRef.current) clearInterval(progressTimerRef.current);
+    setHoldProgress(0);
+  };
+
+  const startHold = () => {
+    const startTime = Date.now();
+    progressTimerRef.current = setInterval(() => {
+      setHoldProgress(Math.min(((Date.now() - startTime) / HOLD_DURATION) * 100, 100));
+    }, 16);
+    holdTimerRef.current = setTimeout(() => {
+      clearInterval(progressTimerRef.current!);
+      setHoldProgress(0);
+      handleConfirm();
+    }, HOLD_DURATION);
+  };
+
+  const handleCancel = () => { cancelHold(); setErrors([]); handleClose(); onReset?.(); };
   const handleConfirm = () => {
     if (validate) {
       const errs = validate();
@@ -58,6 +84,8 @@ export default function Modal({ open, handleClose, onConfirm, onReset, validate,
             gap: 4,
             pt: 1,
             pb: 4,
+            ...contentSx,
+            ...(errors.length > 0 ? { gap: 4 } : {}),
          }}>
           
           {children}
@@ -96,12 +124,41 @@ export default function Modal({ open, handleClose, onConfirm, onReset, validate,
             }}>
             Cancel
             </Button>
-          <Button onClick={handleConfirm}
-          sx={{
-            '&:hover' :{
-              opacity: '1',
-            }
-          }}>{confirmLabel}</Button>
+          {holdToConfirm ? (
+            <Button
+              onMouseDown={startHold}
+              onMouseUp={cancelHold}
+              onMouseLeave={cancelHold}
+              onTouchStart={startHold}
+              onTouchEnd={cancelHold}
+              sx={{
+                position: 'relative',
+                overflow: 'hidden',
+                '&:hover': { opacity: '1' },
+              }}
+            >
+              <Box
+                sx={{
+                  position: 'absolute',
+                  left: 0,
+                  top: 0,
+                  bottom: 0,
+                  width: `${holdProgress}%`,
+                  bgcolor: 'rgba(255,255,255,0.25)',
+                  pointerEvents: 'none',
+                  transition: holdProgress === 0 ? 'none' : undefined,
+                }}
+              />
+              {confirmLabel}
+            </Button>
+          ) : (
+            <Button
+              onClick={handleConfirm}
+              sx={{ '&:hover': { opacity: '1' } }}
+            >
+              {confirmLabel}
+            </Button>
+          )}
         </Box>
       </Box>
     </MuiModal>

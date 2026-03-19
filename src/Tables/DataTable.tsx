@@ -1,11 +1,12 @@
 import { DataGrid, type GridColDef, type GridRowId, type GridRowSelectionModel, type GridRowsProp } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
 import type { GridApiCommunity } from '@mui/x-data-grid/internals';
-import { useState } from 'react';
 
 interface DataTableProps {
   apiRef?: React.RefObject<GridApiCommunity | null>;
   rows: GridRowsProp;
+  selectedRows: GridRowSelectionModel;
+  onSelectionChange: (model: GridRowSelectionModel) => void;
 }
 
 const columns: GridColDef[] = [
@@ -20,11 +21,7 @@ const columns: GridColDef[] = [
 
 const paginationModel = { page: 0, pageSize: 10 };
 
-export default function DataTable({ apiRef, rows }: DataTableProps) {
-  const [selectedRows, setSelectedRows] = useState<GridRowSelectionModel>(
-    { type: 'include', ids: new Set<GridRowId>() }
-  );
-
+export default function DataTable({ apiRef, rows, selectedRows, onSelectionChange }: DataTableProps) {
   const handleSelectionChange = (newSelection: GridRowSelectionModel) => {
     // In v8, clicking "select all" passes { type: 'exclude', ids: new Set() }
     const isSelectAll = newSelection.type === 'exclude' && newSelection.ids.size === 0;
@@ -42,12 +39,12 @@ export default function DataTable({ apiRef, rows }: DataTableProps) {
         (selectedRows.ids as Set<GridRowId>).size === visibleIds.length;
 
       if (allVisibleSelected) {
-        setSelectedRows({ type: 'include', ids: new Set<GridRowId>() });
+        onSelectionChange({ type: 'include', ids: new Set<GridRowId>() });
       } else {
-        setSelectedRows({ type: 'include', ids: new Set<GridRowId>(visibleIds) });
+        onSelectionChange({ type: 'include', ids: new Set<GridRowId>(visibleIds) });
       }
     } else {
-      setSelectedRows(newSelection);
+      onSelectionChange(newSelection);
     }
   };
 
