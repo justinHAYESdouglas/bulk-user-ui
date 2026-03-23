@@ -1,5 +1,5 @@
 import { Button } from '@mui/material';
-import FilterListIcon from '@mui/icons-material/FilterList';
+import SearchIcon from '@mui/icons-material/Search';
 import { type GridApiCommon } from '@mui/x-data-grid';
 
 interface SearchFilterProps {
@@ -13,7 +13,7 @@ export default function SearchFilter({ apiRef }: SearchFilterProps) {
 
   return (
     <Button
-      startIcon={<FilterListIcon />}
+      startIcon={<SearchIcon />}
       onClick={handleFilterClick}
     >
       Search/Filter

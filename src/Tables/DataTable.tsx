@@ -1,6 +1,7 @@
 import { DataGrid, type GridColDef, type GridRowId, type GridRowSelectionModel, type GridRowsProp } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
 import type { GridApiCommunity } from '@mui/x-data-grid/internals';
+import { useEffect, useRef } from 'react';
 
 interface DataTableProps {
   apiRef?: React.RefObject<GridApiCommunity | null>;
@@ -22,6 +23,32 @@ const columns: GridColDef[] = [
 const paginationModel = { page: 0, pageSize: 10 };
 
 export default function DataTable({ apiRef, rows, selectedRows, onSelectionChange }: DataTableProps) {
+  const boxRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = boxRef.current;
+    if (!container) return;
+
+    const fixA11y = () => {
+      container.querySelectorAll('.MuiDataGrid-cell[title]').forEach((cell) => {
+        cell.removeAttribute('title');
+      });
+      const nativeInput = container.querySelector<HTMLInputElement>('.MuiSelect-nativeInput');
+      if (nativeInput) {
+        nativeInput.setAttribute('aria-label', 'Rows per page');
+      }
+      container.querySelectorAll<HTMLInputElement>('input[name="select_row"]').forEach((cb) => {
+        cb.removeAttribute('name');
+      });
+    };
+
+    fixA11y();
+
+    const observer = new MutationObserver(fixA11y);
+    observer.observe(container, { subtree: true, childList: true, attributes: true, attributeFilter: ['title'] });
+
+    return () => observer.disconnect();
+  }, []);
   const handleSelectionChange = (newSelection: GridRowSelectionModel) => {
     // In v8, clicking "select all" passes { type: 'exclude', ids: new Set() }
     const isSelectAll = newSelection.type === 'exclude' && newSelection.ids.size === 0;
@@ -49,7 +76,7 @@ export default function DataTable({ apiRef, rows, selectedRows, onSelectionChang
   };
 
   return (
-    <Box>
+    <Box ref={boxRef}>
       <DataGrid
         apiRef={apiRef}
         rows={rows}
@@ -61,6 +88,18 @@ export default function DataTable({ apiRef, rows, selectedRows, onSelectionChang
         disableColumnFilter={false}
         rowSelectionModel={selectedRows}
         onRowSelectionModelChange={handleSelectionChange}
+        slotProps={{
+          pagination: {
+            SelectProps: {
+              inputProps: {
+                'aria-label': 'rows per page',
+                'aria-labelledby': 'rowsPage',
+              },
+              id: 'rowsPage',
+              native: false,
+            },
+          },
+        }}
         sx={{
           minHeight: 754,
           maxHeight: 755,
@@ -108,6 +147,9 @@ export default function DataTable({ apiRef, rows, selectedRows, onSelectionChang
           '.MuiTablePagination-root': {
             color: 'var(--primary-text-color)',
             background: 'var(--bg-color-dark) !important',
+          },
+          '& .MuiSelect-nativeInput': {
+            display: 'none',
           },
         }}
       />

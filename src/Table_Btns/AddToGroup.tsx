@@ -16,10 +16,11 @@ interface AddToGroupProps {
   onDeleteGroup?: (name: string) => void;
   onRenameGroup?: (oldName: string, newName: string) => void;
   onGroupsUpdated?: (message: string) => void;
+  onAddToGroup?: (groupName: string) => void;
   selectedCount?: number;
 }
 
-export default function AddToGroup({ onGroupCreated, onDeleteGroup, onRenameGroup, onGroupsUpdated, selectedCount = 0 }: AddToGroupProps) {
+export default function AddToGroup({ onGroupCreated, onDeleteGroup, onRenameGroup, onGroupsUpdated, onAddToGroup, selectedCount = 0 }: AddToGroupProps) {
   const [openModal, setOpenModal] = useState<ModalType>(null);
   const [anchorEL, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -39,7 +40,7 @@ export default function AddToGroup({ onGroupCreated, onDeleteGroup, onRenameGrou
 
   const handleGroupDropdownClose = () => {
     setAnchorEl(null);
-    setSearchQuery(''); // Reset search when closing
+    setSearchQuery(''); 
   };
 
   const handleManageGroupModalOpen = () => {
@@ -162,7 +163,7 @@ export default function AddToGroup({ onGroupCreated, onDeleteGroup, onRenameGrou
               }}>
               {filteredGroups.length > 0 ? (
                 filteredGroups.map((group, index) => (
-                  <MenuItem key={index}>{group}</MenuItem>
+                  <MenuItem key={index} onClick={() => { onAddToGroup?.(group); handleGroupDropdownClose(); }}>{group}</MenuItem>
                 ))
               ) : (
                 <MenuItem disabled>No groups found</MenuItem>
@@ -171,7 +172,6 @@ export default function AddToGroup({ onGroupCreated, onDeleteGroup, onRenameGrou
           </>
         )}
         
-
         <Divider sx={{
           background: 'var(--bg-color-lightest) !important',
         }} />

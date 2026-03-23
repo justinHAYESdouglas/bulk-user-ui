@@ -117,10 +117,13 @@ button:hover{
 .MuiDataGrid-filterForm fieldset, .MuiDataGrid-filterForm svg{
   border-color:var(--bg-color-lighter) !important;
   fill: var(--primary-text-color) !important;
-
 }
-
 /* FILTER PANEL STYLES END */
+
+.MuiSelect-nativeInput{
+ background-color: #09090B !important;
+ color: #fff !important;
+}
 
 :root{
   --bg-color-darkest: #09090B;
@@ -132,4 +135,5 @@ button:hover{
   --border-color: #212123;
   --primary-text-color: #fff;
   --error-text-color: red;
+  --active-user-color: green;
 }

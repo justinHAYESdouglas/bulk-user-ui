@@ -35,6 +35,28 @@ function App() {
     setSnackbar(`${user.username} added successfully`);
   };
 
+  const handleEditUsers = (updatedUsers: User[]) => {
+    const updatedMap = new Map(updatedUsers.map((u) => [u.id, u]));
+    setUsers((prev) => prev.map((u) => updatedMap.get(u.id) ?? u));
+    const msg = updatedUsers.length === 1
+      ? `${updatedUsers[0].username} updated successfully`
+      : `${updatedUsers.length} users updated successfully`;
+    setSnackbar(msg);
+  };
+
+  const handleAddToGroup = (groupName: string) => {
+    setUsers((prev) => prev.map((u) => {
+      if (!(selectedRows.ids as Set<number>).has(u.id)) return u;
+      const existing = u.group ? u.group.split(', ').filter(Boolean) : [];
+      if (existing.includes(groupName)) return u;
+      return { ...u, group: [...existing, groupName].join(', ') };
+    }));
+    const msg = selectedUsers.length === 1
+      ? `${selectedUsers[0].username} added to "${groupName}"`
+      : `${selectedUsers.length} users added to "${groupName}"`;
+    setSnackbar(msg);
+  };
+
   const handleDeleteUsers = (ids: number[], deletedUsers: User[]) => {
     setUsers((prev) => prev.filter((u) => !ids.includes(u.id)));
     setSelectedRows({ type: 'include', ids: new Set() });
@@ -84,9 +106,9 @@ function App() {
               borderTop: '2px solid var(--primary-text-color)',
             }}
           >
-            <Edit />
+            <Edit users={selectedUsers} onEditUsers={handleEditUsers} />
             <Add onAddUser={handleAddUser} users={users} />
-            <AddToGroup onGroupCreated={(name) => setSnackbar(`"${name}" Group created`)} onDeleteGroup={handleDeleteGroup} onRenameGroup={handleRenameGroup} onGroupsUpdated={(msg) => setSnackbar(msg)} selectedCount={selectedUsers.length} />
+            <AddToGroup onGroupCreated={(name) => setSnackbar(`"${name}" Group created`)} onDeleteGroup={handleDeleteGroup} onRenameGroup={handleRenameGroup} onGroupsUpdated={(msg) => setSnackbar(msg)} onAddToGroup={handleAddToGroup} selectedCount={selectedUsers.length} />
             <Lock />
             <Unlock />
             <Export />
