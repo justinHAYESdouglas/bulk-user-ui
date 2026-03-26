@@ -14,11 +14,12 @@ interface ModalProps {
   validate?: () => string[];
   contentSx?: object;
   holdToConfirm?: boolean;
+  emptyContent?: boolean;
 }
 
 const style = {
   position: 'absolute',
-  top: '40%',
+  top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 409,
@@ -29,7 +30,7 @@ const style = {
   borderRadius: '8px',
 };
 
-export default function Modal({ open, handleClose, onConfirm, onReset, validate, modalIcon, title, children, confirmLabel, contentSx, holdToConfirm }: ModalProps) {
+export default function Modal({ open, handleClose, onConfirm, onReset, validate, modalIcon, title, children, confirmLabel, contentSx, holdToConfirm, emptyContent }: ModalProps) {
   const [errors, setErrors] = useState<string[]>([]);
   const [holdProgress, setHoldProgress] = useState(0);
   const holdTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -86,6 +87,7 @@ export default function Modal({ open, handleClose, onConfirm, onReset, validate,
             pb: 4,
             ...contentSx,
             ...(errors.length > 0 ? { gap: 4 } : {}),
+            ...(emptyContent ? { gap: 0 } : {}),
          }}>
           
           {children}

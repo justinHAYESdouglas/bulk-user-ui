@@ -47,8 +47,9 @@ export default function Delete({ selectedUsers, onDeleteUsers }: DeleteProps) {
           : `Deleting... ${toDelete.length} users`}
         confirmLabel="Hold to Delete"
         holdToConfirm
+        emptyContent={selectedUsers.length === 0}
       >
-        {selectedUsers.length > 0 && <TextField
+        {selectedUsers.length > 5 && <TextField
           size="small"
           placeholder="Search users..."
           value={search}
@@ -79,7 +80,7 @@ export default function Delete({ selectedUsers, onDeleteUsers }: DeleteProps) {
                 overflowY: 'scroll'
                 }}>
           {selectedUsers.length === 0 ? (
-            <Box sx={{ color: 'var(--bg-color-lightest)', fontSize: 14 }}>No users selected.</Box>
+            <Box sx={{ color: 'var(--bg-color-lightest)', fontSize: 14, p: 4, textAlign: 'center' }}>No users selected.</Box>
           ) : (() => {
             const filtered = selectedUsers.filter((user) =>
               user.username.toLowerCase().includes(search.toLowerCase())

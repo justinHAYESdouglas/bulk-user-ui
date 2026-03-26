@@ -2,6 +2,7 @@ import { DataGrid, type GridColDef, type GridRowId, type GridRowSelectionModel, 
 import Box from '@mui/material/Box';
 import type { GridApiCommunity } from '@mui/x-data-grid/internals';
 import { useEffect, useRef } from 'react';
+import ArchiveIcon from '@mui/icons-material/Archive';
 
 interface DataTableProps {
   apiRef?: React.RefObject<GridApiCommunity | null>;
@@ -15,7 +16,32 @@ const columns: GridColDef[] = [
   { field: 'email', headerName: 'Email', width: 275},
   { field: 'role', headerName: 'Role', width: 275},
   { field: 'group', headerName: 'Group', width: 275},
-  { field: 'activity', headerName: 'Activity', width: 275},
+  {
+    field: 'activity',
+    headerName: 'Activity',
+    width: 275,
+    renderCell: (params) => (
+      <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+        {params.value === 'Online' && (
+          <span style={{
+            width: '8px',
+            height: '8px',
+            borderRadius: '50%',
+            backgroundColor: 'var(--active-user-color)',
+            display: 'inline-block',
+            flexShrink: 0,
+          }} />
+        )}
+        {params.value === 'Archived' && (
+          <ArchiveIcon style={{ fontSize: '16px', flexShrink: 0, color: 'var(--bg-color-lightest)' }} />
+        )}
+        {params.value === 'Offline' || params.value === 'Archived'
+          ? <span style={{ color: 'var(--bg-color-lightest)' }}>{params.value}</span>
+          : params.value
+        }
+      </span>
+    ),
+  },
   { field: 'dateCreated', headerName: 'Date Created', width: 275},
 ];
 
@@ -86,6 +112,7 @@ export default function DataTable({ apiRef, rows, selectedRows, onSelectionChang
         pageSizeOptions={[10, 25, 50, { value: rows.length, label: 'All' }]}
         checkboxSelection
         disableColumnFilter={false}
+        disableColumnMenu
         rowSelectionModel={selectedRows}
         onRowSelectionModelChange={handleSelectionChange}
         slotProps={{
@@ -96,7 +123,7 @@ export default function DataTable({ apiRef, rows, selectedRows, onSelectionChang
                 'aria-labelledby': 'rowsPage',
               },
               id: 'rowsPage',
-              native: false,
+              native: true,
             },
           },
         }}

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Button, Checkbox, FormControlLabel, Switch, TextField } from '@mui/material';
+import { Box, Button, Checkbox, FormControlLabel, Switch, TextField, Radio, RadioGroup } from '@mui/material';
 import Modal from '../Components/Modal';
 import DropdownAutocomplete from '../Components/DropdownAutocomplete';
 import EditSquareIcon from '@mui/icons-material/EditSquare';
@@ -19,6 +19,7 @@ export default function Edit({ users, onEditUsers }: EditProps) {
   const [selectedGroups, setSelectedGroups] = useState<string[]>([]);
   const [resetPassword, setResetPassword] = useState(false);
   const [toEdit, setToEdit] = useState<number[]>([]);
+  const [accountStatus, setAccountStatus] = useState<'none' | 'archived' | null>('none');
 
   const isSingle = users.length === 1;
 
@@ -30,11 +31,15 @@ export default function Edit({ users, onEditUsers }: EditProps) {
         setSelectedRoles(user.role ? user.role.split(', ').filter(Boolean) : []);
         setSelectedGroups(user.group ? user.group.split(', ').filter(Boolean) : []);
         setResetPassword(false);
+        setAccountStatus(user.activity === 'Archived' ? 'archived' : 'none');
       } else {
         setSelectedRoles([]);
         setSelectedGroups([]);
         setResetPassword(false);
         setToEdit(users.map((u) => u.id));
+        const allArchived = users.every((u) => u.activity === 'Archived');
+        const noneArchived = users.every((u) => u.activity !== 'Archived');
+        setAccountStatus(allArchived ? 'archived' : noneArchived ? 'none' : null);
       }
     }
     setOpen(true);
@@ -54,21 +59,71 @@ export default function Edit({ users, onEditUsers }: EditProps) {
 
   const updateUsers = () => {
     if (isSingle) {
-      onEditUsers([{
-        ...users[0],
-        username,
-        role: mergeValues(users[0].role, selectedRoles),
-        group: mergeValues(users[0].group, selectedGroups),
-      }]);
+      const u = users[0];
+      const prev = (u as any).previousActivity as string | undefined;
+      if (accountStatus === 'archived') {
+        const prevActivity = u.activity === 'Archived' ? prev : u.activity;
+        onEditUsers([{
+          ...u,
+          username,
+          role: mergeValues(u.role, selectedRoles),
+          group: mergeValues(u.group, selectedGroups),
+          activity: 'Archived',
+          previousActivity: prevActivity,
+        }]);
+      } else {
+        const restored = u.activity === 'Archived' ? (prev ?? 'Offline') : u.activity;
+        onEditUsers([{
+          ...u,
+          username,
+          role: mergeValues(u.role, selectedRoles),
+          group: mergeValues(u.group, selectedGroups),
+          activity: restored,
+          previousActivity: undefined,
+        }]);
+      }
     } else {
       onEditUsers(
         users
           .filter((u) => toEdit.includes(u.id))
-          .map((u) => ({
-            ...u,
-            role: mergeValues(u.role, selectedRoles),
-            group: mergeValues(u.group, selectedGroups),
-          }))
+          .map((u) => {
+            const prev = (u as any).previousActivity as string | undefined;
+            if (accountStatus === 'archived') {
+              const prevActivity = u.activity === 'Archived' ? prev : u.activity;
+              return {
+                ...u,
+                role: mergeValues(u.role, selectedRoles),
+                group: mergeValues(u.group, selectedGroups),
+                activity: 'Archived',
+                previousActivity: prevActivity,
+              };
+            }
+
+            if (accountStatus === 'none') {
+              // restore archived users only
+              if (u.activity === 'Archived') {
+                return {
+                  ...u,
+                  role: mergeValues(u.role, selectedRoles),
+                  group: mergeValues(u.group, selectedGroups),
+                  activity: prev ?? 'Offline',
+                  previousActivity: undefined,
+                };
+              }
+              return {
+                ...u,
+                role: mergeValues(u.role, selectedRoles),
+                group: mergeValues(u.group, selectedGroups),
+              };
+            }
+
+            // accountStatus === null -> do not change activity
+            return {
+              ...u,
+              role: mergeValues(u.role, selectedRoles),
+              group: mergeValues(u.group, selectedGroups),
+            };
+          })
       );
     }
     handleClose();
@@ -89,9 +144,10 @@ export default function Edit({ users, onEditUsers }: EditProps) {
         modalIcon={<EditSquareIcon />}
         title={users.length === 0 ? 'Edit User' : isSingle ? `Edit "${users[0].username}"` : `Editing... ${users.length} Users`}
         confirmLabel="Update"
+        emptyContent={users.length === 0}
       >
         {users.length === 0 ? (
-          <Box sx={{ color: 'var(--bg-color-lightest)', fontSize: 14 }}>No users selected.</Box>
+          <Box sx={{ color: 'var(--bg-color-lightest)', fontSize: 14, p: 4, textAlign: 'center' }}>No users selected.</Box>
         ) : (
           <>
         {isSingle && (
@@ -123,16 +179,32 @@ export default function Edit({ users, onEditUsers }: EditProps) {
 
         {isSingle && (
           <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-            <span>Reset Password: </span>
+            <span>Reset Password</span>
             <Switch checked={resetPassword} onChange={(e) => setResetPassword(e.target.checked)} />
+          </Box>
+        )}
+        {isSingle && (
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mt: 1 }}>
+            <span>Account Status</span>
+            <RadioGroup row value={accountStatus ?? ''} onChange={(e) => setAccountStatus(e.target.value === 'archived' ? 'archived' : 'none')}>
+              <FormControlLabel value="none" control={<Radio />} label="Active" />
+              <FormControlLabel value="archived" control={<Radio />} label="Archived" />
+            </RadioGroup>
           </Box>
         )}
 
         {!isSingle && (
           <>
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-              <span>Reset Password: </span>
+              <span>Reset Password</span>
               <Switch checked={resetPassword} onChange={(e) => setResetPassword(e.target.checked)} />
+            </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mt: 1 }}>
+              <span>Account Status</span>
+              <RadioGroup row value={accountStatus ?? ''} onChange={(e) => setAccountStatus(e.target.value === 'archived' ? 'archived' : 'none')}>
+                <FormControlLabel value="none" control={<Radio />} label="Active" />
+                <FormControlLabel value="archived" control={<Radio />} label="Archived" />
+              </RadioGroup>
             </Box>
             <Box
               sx={{

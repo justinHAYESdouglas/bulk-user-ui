@@ -155,7 +155,6 @@ export default function AddToGroup({ onGroupCreated, onDeleteGroup, onRenameGrou
         {selectedCount === 0 ? (
           <MenuItem disabled sx={{ whiteSpace: 'normal', maxWidth: 260 }}>Select users to add to a group</MenuItem>
         ) : (
-          <>
             <Box
               sx={{
                 maxHeight: '150px',
@@ -169,7 +168,6 @@ export default function AddToGroup({ onGroupCreated, onDeleteGroup, onRenameGrou
                 <MenuItem disabled>No groups found</MenuItem>
               )}
             </Box>
-          </>
         )}
         
         <Divider sx={{

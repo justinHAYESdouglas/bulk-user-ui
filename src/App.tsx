@@ -15,7 +15,7 @@ import { useState } from 'react';
 import usersData from './data/users.json';
 import './App.css';
 
-export type User = typeof usersData[number];
+export type User = (typeof usersData[number]) & { previousActivity?: string };
 
 // this is an enterprise bluk usermanagment frontend
 function App() {
@@ -109,8 +109,6 @@ function App() {
             <Edit users={selectedUsers} onEditUsers={handleEditUsers} />
             <Add onAddUser={handleAddUser} users={users} />
             <AddToGroup onGroupCreated={(name) => setSnackbar(`"${name}" Group created`)} onDeleteGroup={handleDeleteGroup} onRenameGroup={handleRenameGroup} onGroupsUpdated={(msg) => setSnackbar(msg)} onAddToGroup={handleAddToGroup} selectedCount={selectedUsers.length} />
-            <Lock />
-            <Unlock />
             <Export />
             <Delete selectedUsers={selectedUsers} onDeleteUsers={(ids, users) => handleDeleteUsers(ids, users)} />
           </Box>
