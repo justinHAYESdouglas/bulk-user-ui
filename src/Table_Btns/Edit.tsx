@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Box, Button, Checkbox, FormControlLabel, Switch, TextField, Radio, RadioGroup } from '@mui/material';
 import Modal from '../Components/Modal';
 import DropdownAutocomplete from '../Components/DropdownAutocomplete';
+import PasswordReset from '../Components/PasswordReset';
+import ArchiveUser from '../Components/ArchiveUser';
 import EditSquareIcon from '@mui/icons-material/EditSquare';
 import rolesData from '../data/roles.json';
 import groupsData from '../data/groups.json';
@@ -51,6 +53,8 @@ export default function Edit({ users, onEditUsers }: EditProps) {
     setToEdit((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
   };
 
+  
+
   const mergeValues = (existing: string, additions: string[]): string => {
     const current = existing ? existing.split(', ').filter(Boolean) : [];
     const merged = Array.from(new Set([...current, ...additions]));
@@ -70,7 +74,7 @@ export default function Edit({ users, onEditUsers }: EditProps) {
           group: mergeValues(u.group, selectedGroups),
           activity: 'Archived',
           previousActivity: prevActivity,
-        }]);
+        } as User]);
       } else {
         const restored = u.activity === 'Archived' ? (prev ?? 'Offline') : u.activity;
         onEditUsers([{
@@ -80,7 +84,7 @@ export default function Edit({ users, onEditUsers }: EditProps) {
           group: mergeValues(u.group, selectedGroups),
           activity: restored,
           previousActivity: undefined,
-        }]);
+        } as User]);
       }
     } else {
       onEditUsers(
@@ -178,35 +182,29 @@ export default function Edit({ users, onEditUsers }: EditProps) {
         />
 
         {isSingle && (
-          <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-            <span>Reset Password</span>
-            <Switch checked={resetPassword} onChange={(e) => setResetPassword(e.target.checked)} />
-          </Box>
+          <ArchiveUser />
         )}
+
         {isSingle && (
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mt: 1 }}>
-            <span>Account Status</span>
-            <RadioGroup row value={accountStatus ?? ''} onChange={(e) => setAccountStatus(e.target.value === 'archived' ? 'archived' : 'none')}>
-              <FormControlLabel value="none" control={<Radio />} label="Active" />
-              <FormControlLabel value="archived" control={<Radio />} label="Archived" />
-            </RadioGroup>
-          </Box>
+          <PasswordReset
+            username={users[0].username}
+            email={(users[0] as any).email}
+            checked={resetPassword}
+            onToggle={(v: boolean) => setResetPassword(v)}
+          />
         )}
+        
 
         {!isSingle && (
           <>
-            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-              <span>Reset Password</span>
-              <Switch checked={resetPassword} onChange={(e) => setResetPassword(e.target.checked)} />
-            </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mt: 1 }}>
-              <span>Account Status</span>
-              <RadioGroup row value={accountStatus ?? ''} onChange={(e) => setAccountStatus(e.target.value === 'archived' ? 'archived' : 'none')}>
-                <FormControlLabel value="none" control={<Radio />} label="Active" />
-                <FormControlLabel value="archived" control={<Radio />} label="Archived" />
-              </RadioGroup>
-            </Box>
-            <Box
+            <ArchiveUser />
+            <PasswordReset
+            username={users[0].username}
+            email={(users[0] as any).email}
+            checked={resetPassword}
+            onToggle={(v: boolean) => setResetPassword(v)}
+          />
+            {/* <Box
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -236,7 +234,7 @@ export default function Edit({ users, onEditUsers }: EditProps) {
                       }
                     />
               ))}
-            </Box>
+            </Box> */}
           </>
         )}
           </>
