@@ -16,6 +16,7 @@ interface ModalProps {
   holdToConfirm?: boolean;
   emptyContent?: boolean;
   modalWidth?: number | string;
+  modalSx?: object;
 }
 const styleBase = {
   position: 'absolute',
@@ -29,7 +30,7 @@ const styleBase = {
   borderRadius: '8px',
 };
 
-export default function Modal({ open, handleClose, onConfirm, onReset, validate, modalIcon, title, children, confirmLabel, contentSx, holdToConfirm, emptyContent, modalWidth }: ModalProps) {
+export default function Modal({ open, handleClose, onConfirm, onReset, validate, modalIcon, title, children, confirmLabel, contentSx, holdToConfirm, emptyContent, modalWidth, modalSx }: ModalProps) {
   const [errors, setErrors] = useState<string[]>([]);
   const [holdProgress, setHoldProgress] = useState(0);
   const holdTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -65,7 +66,7 @@ export default function Modal({ open, handleClose, onConfirm, onReset, validate,
     onConfirm();
     onReset?.();
   };
-  const style = { ...styleBase, width: modalWidth ?? 409 };
+  const style = { ...styleBase, width: modalWidth ?? 409, ...modalSx };
 
   return (
     <MuiModal open={open} onClose={handleCancel}>
@@ -86,6 +87,9 @@ export default function Modal({ open, handleClose, onConfirm, onReset, validate,
             gap: 4,
             pt: 1,
             pb: 4,
+            maxHeight: '700px',
+            overflowY: 'scroll',
+            overflowX: 'hidden',
             ...contentSx,
             ...(errors.length > 0 ? { gap: 4 } : {}),
             ...(emptyContent ? { gap: 0 } : {}),

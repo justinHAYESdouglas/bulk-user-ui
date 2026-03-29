@@ -56,7 +56,21 @@ export default function DropdownAutocomplete({
       onChange={(_: unknown, newValue: string[]) => onChange(newValue)}
       renderOption={({ key, ...props }, option, { selected }) => (
         <li key={key} {...props}>
-          <Checkbox checked={selected}/>
+          <Checkbox
+            checked={selected}
+            sx={{
+              color: 'var(--bg-color-lightest) !important',
+              '& .MuiSvgIcon-root': {
+                fill: 'var(--bg-color-lightest) !important',
+              },
+              '&.Mui-checked, &.MuiCheckbox-indeterminate': {
+                color: 'var(--highlight-color) !important',
+              },
+              '&.Mui-checked .MuiSvgIcon-root, &.MuiCheckbox-indeterminate .MuiSvgIcon-root': {
+                fill: 'var(--highlight-color) !important',
+              },
+            }}
+          />
           {option}
         </li>
       )}

@@ -1,18 +1,13 @@
 import * as React from 'react';
-import { Box, Menu, Button, MenuItem } from '@mui/material';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { Box, Button } from '@mui/material';
 
 export default function Nav() {
-  const [anchorEL, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEL);
+  const [, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
   return (
     <>
       <Box component="header">
@@ -27,16 +22,9 @@ export default function Nav() {
         >
           <Button 
           onClick={handleClick} 
-          endIcon={<ArrowDropDownIcon />}
           >
             Super Admin (Org 0)
           </Button>
-
-          <Menu anchorEl={anchorEL} open={open} onClose={handleClose}>
-            <MenuItem>Super Admin (Org1)</MenuItem>
-            <MenuItem>Super Admin (Org2)</MenuItem>
-            <MenuItem>Super Admin (Org3)</MenuItem>
-          </Menu>
         </Box>
       </Box>
     </>

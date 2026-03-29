@@ -2,8 +2,6 @@ import Nav from './Components/Nav';
 import Edit from './Table_Btns/Edit';
 import Add from './Table_Btns/Add';
 import AddToGroup from './Table_Btns/AddToGroup';
-import Lock from './Table_Btns/Lock';
-import Unlock from './Table_Btns/Unlock';
 import Export from './Table_Btns/Export';
 import Delete from './Table_Btns/Delete';
 import SearchFilter from './Table_Btns/SearchFilter';
@@ -83,8 +81,6 @@ function App() {
           sx={{
             fontWeight:'unset',
             fontSize: '34px',
-            transform: 'scaleY(1.2)',
-            letterSpacing: 1
           }}
         >
           Users
@@ -92,9 +88,14 @@ function App() {
           </Typography>
 
         <Box
+          id="table-btn-container"
           sx={{
             display: 'flex',
             flexDirection: 'row',
+            '@media screen and (max-width: 654px)': {
+                flexDirection: 'column',
+                pb: 1
+              },
           }}
         >
           <Box

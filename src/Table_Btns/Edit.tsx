@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Button, Checkbox, Divider, FormControlLabel, Switch, TextField, Radio, RadioGroup, Typography } from '@mui/material';
+import { Box, Button, Divider, TextField, Typography } from '@mui/material';
 import Modal from '../Components/Modal';
 import DropdownAutocomplete from '../Components/DropdownAutocomplete';
 import PasswordReset from '../Components/PasswordReset';
@@ -18,8 +18,7 @@ interface EditProps {
 }
 
 const modeButtonSx = (active: boolean) => ({
-  background: active ? 'var(--bg-color-lighter) !important' : 'transparent',
-  border: active ? '1px solid var(--bg-color-lightest)' : '1px solid transparent',
+  background: active ? 'var(--highlight-color) !important' : 'transparent',
 });
 
 const MODE_LABELS: { value: FieldMode; label: string }[] = [
@@ -179,7 +178,7 @@ export default function Edit({ users, onEditUsers }: EditProps) {
             ? 'Edit User'
             : isSingle
             ? `Edit "${users[0].username}"`
-            : `Editing... ${users.length} Users`
+            : `Editing... ${toEdit.length} Users`
         }
         confirmLabel="Update"
         emptyContent={users.length === 0}
@@ -245,6 +244,10 @@ export default function Edit({ users, onEditUsers }: EditProps) {
                     p: '16px',
                     borderRadius: '4px',
                     background: 'var(--bg-color-darker)',
+
+                    '@media screen and (max-width: 1028px)': {
+                     display: 'none'
+                    },
                   }}
                 >
                 <Typography sx={{fontSize: '18px'}}>Users Affected</Typography>

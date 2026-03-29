@@ -157,8 +157,17 @@ export default function DataTable({ apiRef, rows, selectedRows, onSelectionChang
             background: 'var(--bg-color-light) !important',
             border: 'none',
           },
-          '& .MuiSvgIcon-root': {
-            fill: 'var(--bg-color-lightest)',
+          '& .MuiDataGrid-cellCheckbox .MuiCheckbox-root, & .MuiDataGrid-columnHeaderCheckbox .MuiCheckbox-root': {
+            color: 'var(--bg-color-lightest) !important',
+          },
+          '& .MuiDataGrid-cellCheckbox .MuiCheckbox-root .MuiSvgIcon-root, & .MuiDataGrid-columnHeaderCheckbox .MuiCheckbox-root .MuiSvgIcon-root': {
+            fill: 'var(--bg-color-lightest) !important',
+          },
+          '& .MuiDataGrid-cellCheckbox .MuiCheckbox-root.Mui-checked, & .MuiDataGrid-cellCheckbox .MuiCheckbox-root.MuiCheckbox-indeterminate, & .MuiDataGrid-columnHeaderCheckbox .MuiCheckbox-root.Mui-checked, & .MuiDataGrid-columnHeaderCheckbox .MuiCheckbox-root.MuiCheckbox-indeterminate': {
+            color: 'var(--highlight-color) !important',
+          },
+          '& .MuiDataGrid-cellCheckbox .MuiCheckbox-root.Mui-checked .MuiSvgIcon-root, & .MuiDataGrid-cellCheckbox .MuiCheckbox-root.MuiCheckbox-indeterminate .MuiSvgIcon-root, & .MuiDataGrid-columnHeaderCheckbox .MuiCheckbox-root.Mui-checked .MuiSvgIcon-root, & .MuiDataGrid-columnHeaderCheckbox .MuiCheckbox-root.MuiCheckbox-indeterminate .MuiSvgIcon-root': {
+            fill: 'var(--highlight-color) !important',
           },
           '.MuiDataGrid-cell': {
             border: 'none',

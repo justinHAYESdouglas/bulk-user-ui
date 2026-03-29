@@ -35,12 +35,11 @@ button{
 }
 
 button:hover{
-  background: var(--bg-color-lighter) !important;
-  outline: 1px solid var(--bg-color-lightest);
+  background: var(--highlight-color) !important;
 }
 
 .MuiCheckbox-root svg{
-  fill: var(--primary-text-color);
+  fill: var(--bg-color-lightest);
 }
 
 /* SCROLLBAR STYLES */
@@ -136,4 +135,5 @@ button:hover{
   --primary-text-color: #fff;
   --error-text-color: red;
   --active-user-color: green;
+  --highlight-color: #025AA2;
 }

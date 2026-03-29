@@ -75,6 +75,18 @@ export default function SelectedUserList({ users, selected, onToggle }: Selected
                 <Checkbox
                   checked={selected.includes(user.id)}
                   onChange={() => onToggle(user.id)}
+                  sx={{
+                    color: 'var(--bg-color-lightest) !important',
+                    '& .MuiSvgIcon-root': {
+                      fill: 'var(--bg-color-lightest) !important',
+                    },
+                    '&.Mui-checked, &.MuiCheckbox-indeterminate': {
+                      color: 'var(--highlight-color) !important',
+                    },
+                    '&.Mui-checked .MuiSvgIcon-root, &.MuiCheckbox-indeterminate .MuiSvgIcon-root': {
+                      fill: 'var(--highlight-color) !important',
+                    },
+                  }}
                 />
               }
             />
