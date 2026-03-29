@@ -7,6 +7,7 @@ interface DropdownAutocompleteProps {
   options: string[];
   value: string[];
   onChange: (newValue: string[]) => void;
+  disabled?: boolean;
 }
 
 export default function DropdownAutocomplete({
@@ -15,6 +16,7 @@ export default function DropdownAutocomplete({
   options,
   value,
   onChange,
+  disabled,
 }: DropdownAutocompleteProps) {
   return (
     <Autocomplete
@@ -24,6 +26,7 @@ export default function DropdownAutocomplete({
       id={id}
       options={options}
       value={value}
+      disabled={disabled}
       sx={{
         '& input':{
             border: 'none !important',

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, TextField } from '@mui/material';
+import { Box, Button, TextField } from '@mui/material';
 import Modal from '../Components/Modal';
 import DropdownAutocomplete from '../Components/DropdownAutocomplete';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
@@ -71,28 +71,41 @@ export default function Add({ onAddUser, users }: AddProps) {
         onConfirm={addUser}
         onReset={resetForm}
         validate={validate}
+        modalWidth={809}
         modalIcon={<PersonAddIcon />}
         title="Add User"
         confirmLabel="Add"
       >
-        <TextField id="add-username" required label="Username" variant="standard" value={username} onChange={(e) => setUsername(e.target.value)} />
-        <TextField id="add-email" required label="Email" variant="standard" value={email} onChange={(e) => setEmail(e.target.value)} />
 
-        <DropdownAutocomplete
-          id="add-roles"
-          label="Roles"
-          options={rolesData.map((r) => r.name)}
-          value={selectedRoles}
-          onChange={handleRoleChange}
-        />
+        <Box sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          gap: 2
+        }}>
+          <TextField id="add-username" required label="Username" variant="standard" value={username} onChange={(e) => setUsername(e.target.value)} sx={{ width: 166 }} />
+          <TextField id="add-email" required label="Email" variant="standard" value={email} onChange={(e) => setEmail(e.target.value)} sx={{ width: 166 }} />
 
-        <DropdownAutocomplete
-          id="add-groups"
-          label="Groups"
-          options={groupsData.map((g) => g.name)}
-          value={selectedGroups}
-          onChange={handleGroupChange}
-        />
+         <Box sx={{ width: 166 }}>
+          <DropdownAutocomplete
+           id="add-roles"
+           label="Roles"
+           options={rolesData.map((r) => r.name)}
+           value={selectedRoles}
+           onChange={handleRoleChange}
+         />
+         </Box>
+
+         <Box sx={{ width: 166 }}>
+          <DropdownAutocomplete
+           id="add-groups"
+           label="Groups"
+           options={groupsData.map((g) => g.name)}
+           value={selectedGroups}
+           onChange={handleGroupChange}
+         />
+         </Box>
+        </Box>
+        
       </Modal>
     </>
   );

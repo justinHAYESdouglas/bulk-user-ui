@@ -15,14 +15,13 @@ interface ModalProps {
   contentSx?: object;
   holdToConfirm?: boolean;
   emptyContent?: boolean;
+  modalWidth?: number | string;
 }
-
-const style = {
+const styleBase = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 409,
   bgcolor: 'var(--bg-color-darker)',
   boxShadow: 24,
   p: 2,
@@ -30,7 +29,7 @@ const style = {
   borderRadius: '8px',
 };
 
-export default function Modal({ open, handleClose, onConfirm, onReset, validate, modalIcon, title, children, confirmLabel, contentSx, holdToConfirm, emptyContent }: ModalProps) {
+export default function Modal({ open, handleClose, onConfirm, onReset, validate, modalIcon, title, children, confirmLabel, contentSx, holdToConfirm, emptyContent, modalWidth }: ModalProps) {
   const [errors, setErrors] = useState<string[]>([]);
   const [holdProgress, setHoldProgress] = useState(0);
   const holdTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -66,6 +65,8 @@ export default function Modal({ open, handleClose, onConfirm, onReset, validate,
     onConfirm();
     onReset?.();
   };
+  const style = { ...styleBase, width: modalWidth ?? 409 };
+
   return (
     <MuiModal open={open} onClose={handleCancel}>
       <Box sx={style}>

@@ -16,11 +16,11 @@ export default function PasswordReset({ checked, onToggle }: Props) {
          alignItems: 'center',
          background: 'var(--bg-color-light)',
          borderRadius: '8px',
-         border: '1px solid var(--bg-color-lightest)',
+         border: '2px solid var(--bg-color-lighter)',
          p: 2 
          }}>
         <div>
-          <Typography sx ={{fontSize: '16px'}}>Send Password Reset</Typography>
+          <Typography sx ={{fontSize: '18px'}}>Send Password Reset</Typography>
         </div>
         <div>
           <Switch checked={checked} onChange={(e) => onToggle((e.target as HTMLInputElement).checked)} />
