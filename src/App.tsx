@@ -93,9 +93,24 @@ function App() {
             display: 'flex',
             flexDirection: 'row',
             '@media screen and (max-width: 654px)': {
+                '&  #table-btn-wrapper button, & #table-search-wrapper button': {
+                  fontSize: "0px !important"
+              },
+              '& #table-search-wrapper':{
+                marginLeft: '8px'
+              }
+            
+              },
+              '@media screen and (max-width: 446px)': {
+               '&':{
                 flexDirection: 'column',
                 pb: 1
-              },
+               },
+
+               '& #table-search-wrapper':{
+                marginLeft: '0px'
+                }
+              }
           }}
         >
           <Box
@@ -105,6 +120,10 @@ function App() {
               gap: '8px',
               padding: '12px 0 12px 0',
               borderTop: '2px solid var(--primary-text-color)',
+
+              '@media screen and (max-width: 446px)': {
+                gap: '6px',
+              }
             }}
           >
             <Edit users={selectedUsers} onEditUsers={handleEditUsers} />
@@ -115,6 +134,7 @@ function App() {
           </Box>
 
           <Box
+            id="table-search-wrapper"
             sx={{
               display: 'flex',
               marginLeft: 'auto',

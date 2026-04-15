@@ -35,7 +35,7 @@ interface ModeButtonGroupProps {
 
 function ModeButtonGroup({ mode, onChange }: ModeButtonGroupProps) {
   return (
-    <Box sx={{ display: 'flex', ml: 'auto', gap: 1 }}>
+    <Box sx={{ display: 'flex', ml: 'auto', gap: 1, '@media screen and (max-width: 446px)': { display: 'grid', gridTemplateColumns: 'auto auto' } }}>
       {MODE_LABELS.map(({ value, label }) => (
         <Button
           key={value}

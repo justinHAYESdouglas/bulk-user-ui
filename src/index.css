@@ -137,3 +137,11 @@ button:hover{
   --active-user-color: green;
   --highlight-color: #025AA2;
 }
+
+/* Responsive override: Remove margins on button start icons for mobile */
+@media screen and (max-width: 654px) {
+  .MuiButton-startIcon {
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+  }
+}

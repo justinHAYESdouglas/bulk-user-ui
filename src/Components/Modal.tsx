@@ -16,7 +16,7 @@ interface ModalProps {
   holdToConfirm?: boolean;
   emptyContent?: boolean;
   modalWidth?: number | string;
-  modalSx?: object;
+  modalSx?: Record<string, unknown>;
 }
 const styleBase = {
   position: 'absolute',
@@ -66,7 +66,12 @@ export default function Modal({ open, handleClose, onConfirm, onReset, validate,
     onConfirm();
     onReset?.();
   };
-  const style = { ...styleBase, width: modalWidth ?? 409, ...modalSx };
+  const style = { 
+    ...styleBase, 
+    width: modalWidth ?? 409, 
+    ...modalSx,
+    '@media screen and (max-width: 446px)': { width: 329, ...(modalSx?.['@media screen and (max-width: 446px)'] || {}) }
+  };
 
   return (
     <MuiModal open={open} onClose={handleCancel}>
